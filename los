@@ -1,0 +1,21 @@
+            print("finish workItem2", workItem2.isCancelled)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            workItem1.cancel()
+        }
+        queue.asyncAfter(deadline: .now() + 2, execute: workItem1)
+        queue.asyncAfter(deadline: .now() + 3, execute: workItem2)
+    }
+    
+    func useDispatchGroup() {
+        let group = DispatchGroup()
+        for i in 0...5 {
+            queue2.async(group: group) {
+                self.createWork(i.description)
+            }
+        }
+        
+        group.notify(queue: .main) {
+            print("work finish")
+        }
+        
